@@ -26,7 +26,7 @@ def check(answer,guess):
             sol = sol + '🟩'
         elif g_letters[i] in a_letters:
             a_count = answer.count(g_letters[i])
-            g_count = answer.count(g_letters[i])
+            g_count = guess.count(g_letters[i])
             if g_count > 1:
                 green_count = 0
                 for j in range(5):
@@ -45,6 +45,7 @@ def check(answer,guess):
         else:
             sol = sol + '⬛'
     return sol
+
 
 def entropy(guesses,pa):
     x = len(guesses)
@@ -74,6 +75,7 @@ def entropy(guesses,pa):
     return guesses, guess_E
 
 def limiting(pa,guess,c):
+    print(len(pa))
     possible_answers = np.array([])
     for k in range(len(pa)):
         c_temp = check(pa[k],guess)
@@ -117,6 +119,7 @@ information = []
 results = []
 n = 0
 
+
 while True:
     guess = input("{}. Guess: ".format(n+1))
     result = ((input("Result (b - black, y - yellow, g - green): ").replace('b', '⬛')).replace('y','🟨')).replace('g','🟩')
@@ -132,6 +135,7 @@ while True:
     if hard == 1:
         guesses = hard_mode(guesses,guess,result)
     pa = limiting(pa,guess,result)
+    print(pa)
     for i in range(3):
         print('\n')
     if len(pa) > 50:
@@ -140,7 +144,7 @@ while True:
         guesses, E = entropy(pa,pa)
     for i in range(3):
         print('\n')
-    print("Possibilites \t Information \t\t Guess -> Result")
+    print("Possibilities \t Information \t\t Guess -> Result")
     for i in range(len(guessed)):
         print(str(int(possibilities[i])) + '\t\t ' + str(np.round(information[i],3)) + '\t\t\t ' + str(guessed[i]) + ' -> '+str(results[i]))
     for i in range(1):
